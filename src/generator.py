@@ -1,16 +1,19 @@
 import requests
 from bs4 import BeautifulSoup
 
-# returns an array of words of length n or writes words of length n to a file
-def getSpanishWords(words_length, outfile_name = None):
+# writes to a file or returns an array of n words of length m
+def getSpanishWords(words_length, outfile_name = None, total_words = None):
+
     page = requests.get("https://github.com/javierarce/palabras/blob/master/listado-general.txt")
     soup = BeautifulSoup(page.text, 'lxml')
+
     words_tags = soup.find_all('td', class_ = 'blob-code')
-    words = list(map(lambda word_tag: word_tag.text, words_tags))
+    words_tags_text = list(map(lambda word_tag: word_tag.text, words_tags))
+    words = list(filter(lambda word: len(word) == words_length, words_tags_text))
+
     if outfile_name != None:
-        with open(f"./words/{outfile_name}", 'w') as outfile:
-            for word in words:
-                if len(word) == words_length:
-                    outfile.write(word + '\n')
+        with open(outfile_name, 'w') as outfile:
+            for index in range(len(words) if total_words == None or total_words > len(words) else total_words):
+                outfile.write(words[index] + '\n')
     else:
-        return list(filter(lambda word: len(word) == words_length, words))
+        return words

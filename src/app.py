@@ -1,23 +1,17 @@
 from colorama import Fore
 import sys, platform, os
-from words import getSpanishWords
+from generator import getSpanishWords
+from datetime import datetime
 
 def main():
 
-    getSpanishWords(5, "palabras5.txt")
-    sys.exit(0)
+    infile_path = input("File with words path: ")
+
+    if os.path.exists(infile_path) == False or os.stat(infile_path).st_size == 0:
+        getSpanishWords(5, infile_path, 20)
+    
+    infile = open(infile_path, 'r')
+    print(infile.read())
 
 if __name__ == "__main__":
     main()
-
-"""
-if len(sys.argv) != 2:
-    message = "Usage: python app.py <words length>"
-    if platform.system() != "Windows":
-        print(message.replace("python", "python3"))
-    else:
-        print(message)
-    sys.exit(1)
-
-words_length = sys.argv[1]
-"""
