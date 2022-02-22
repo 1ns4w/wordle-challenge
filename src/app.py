@@ -1,10 +1,10 @@
 from colorama import Fore
-import requests
+from requests_html import HTMLSession
 
-def getSomeLengthWords(lenght):
-    page = requests.get("https://github.com/javierarce/palabras/blob/master/listado-general.txt")
-    page_content = page.text
-    print(page_content)
+def get5LengthWords():
+    session = HTMLSession()
+    page = session.get("https://github.com/javierarce/palabras/blob/master/listado-general.txt")
+    print(page.status_code )
 
 def normalizeVowel(vowel):
     vowels = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u'}
@@ -16,4 +16,4 @@ print(normalizeVowel('á'))
 
 word = 'REINA'
 
-print(getSomeLengthWords(2))
+print(get5LengthWords())
