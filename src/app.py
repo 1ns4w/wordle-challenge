@@ -5,7 +5,7 @@ from datetime import datetime
 def main():
 
     GAME_ATTEMPTS = 6
-    INFILE_PATH = '../assets/palabras5.txt'
+    INFILE_PATH = 'assets/palabras5.txt'
 
     infile = open(INFILE_PATH, 'r')
     words = lineBreakSeparatedValuesToArray(infile.read())
