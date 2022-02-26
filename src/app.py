@@ -1,10 +1,10 @@
 from colorama import Back, init, Style, Fore
-import sys, platform, os
+import sys, platform, os, time
 from datetime import datetime
 
 def main():
 
-    GAME_ATTEMPTS = 5
+    GAME_ATTEMPTS = 6
     INFILE_PATH = '../assets/palabras5.txt'
 
     infile = open(INFILE_PATH, 'r')
@@ -13,13 +13,12 @@ def main():
 
     attempts_counter = 0
     game_grid = []
-    day_of_year = int(datetime.now().strftime('%j'))
+    day_of_year = int(datetime.now().strftime('%j')) - 55
     day_word = normalized_words[day_of_year - 1]
-    print(day_word)
 
     while attempts_counter < GAME_ATTEMPTS:
 
-        day_of_year_peek = int(datetime.now().strftime('%j'))
+        day_of_year_peek = int(datetime.now().strftime('%j')) - 55
 
         if day_of_year_peek != day_of_year:
             game_grid = []
@@ -27,11 +26,14 @@ def main():
             day_word = normalized_words[day_of_year_peek - 1]
             print("La palabra ha cambiado, es un nuevo día.")
             continue
+        
+        answer = input("Ingresa respuesta: ")
 
-        answer = input("Ingresa respuesta: ").strip()
+        if attempts_counter != 0:
+            os.system("clear||cls")
 
-        while not len(answer) == len(day_word):
-            print(f"La respuesta debe tener una longitud de {len(day_word)}")
+        while not len(answer) == len(day_word) or " " in answer:
+            print(f"La respuesta debe tener una longitud de {len(day_word)} o no debe contener espacios.")
             answer = input("Ingresa respuesta nuevamente: ")
 
         answer_chars = list(answer)
