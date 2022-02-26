@@ -1,17 +1,28 @@
 from colorama import Fore
 import sys, platform, os
-from generator import getSpanishWords
 from datetime import datetime
 
 def main():
 
-    infile_path = input("File with words path: ")
+    INFILE_PATH = 'assets/palabras5.txt'
+    infile = open(INFILE_PATH, 'r')
+    words = lineBreakSeparatedValuesToArray(infile.read())
+    normalized_words = normalize_words(words)
 
-    if os.path.exists(infile_path) == False or os.stat(infile_path).st_size == 0:
-        getSpanishWords(5, infile_path, 20)
+    GAME_ATTEMPTS = 5
+    day_of_year = int(datetime.now().strftime('%j'))
+    day_word = normalized_words[day_of_year - 1]
     
-    infile = open(infile_path, 'r')
-    print(infile.read())
+def normalize_words(words):
+    accents_equivalents = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u'}
+    for i in range(len(words)):
+        for accent in accents_equivalents.keys():
+            words[i] = words[i].replace(accent, accents_equivalents[accent])
+    return words
+
+def lineBreakSeparatedValuesToArray(text):
+    return text.split('\n')[:-1]
 
 if __name__ == "__main__":
     main()
+
