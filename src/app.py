@@ -39,9 +39,9 @@ def main():
         clear()
         
         for i in range(len(day_word)):
-            if answer_chars[i].strip() == day_word[i]:
+            if answer_chars[i] == day_word[i]:
                 answer_chars[i] = style_text(Back.GREEN, Fore.BLACK, answer_chars[i])
-            elif answer_chars[i].strip() in day_word:
+            elif answer_chars[i] in day_word:
                 answer_chars[i] = style_text(Back.YELLOW, Fore.BLACK, answer_chars[i])
             else:
                 answer_chars[i] = style_text(Back.WHITE, Fore.BLACK, answer_chars[i])
