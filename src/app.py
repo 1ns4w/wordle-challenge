@@ -19,12 +19,13 @@ def main():
 
     clear()
 
-    game_words = words[:TOTAL_WORDS]
     game_grid = []
     attempts_counter = 0
+    game_words = words[:TOTAL_WORDS]
+    game_keyboard = [['Q']]
 
     day_of_year = int(datetime.now().strftime('%j')) - HASH_SUBSTRACTION
-    day_word = game_words[day_of_year - 1]
+    day_word = game_words[day_of_year - 1].upper()
 
     while attempts_counter < GAME_ATTEMPTS:
 
@@ -38,9 +39,11 @@ def main():
             print("La palabra ha cambiado, es un nuevo día.")
             continue
         
-        answer = input("Ingresa una palabra: ")
+        if attempts_counter > 0:
+            print()
+        answer = input("Ingresa una palabra: ").upper()
 
-        while " " in answer or not (answer in words) or len(answer) != WORDS_LENGTH:
+        while " " in answer or not (answer.lower() in words) or len(answer) != WORDS_LENGTH:
             print(f"Error: Ingresa una palabra válida de {WORDS_LENGTH} letras sin espacios.")
             answer = input("Intenta nuevamente: ")
 
@@ -59,13 +62,13 @@ def main():
         print_colored_grid(game_grid)
 
         if answer == day_word:
-            print("Ganaste.")
+            print("\nGanaste.")
             break
 
         attempts_counter += 1
 
         if attempts_counter == GAME_ATTEMPTS:
-            print("Perdiste.")
+            print("\nPerdiste.")
 
 if __name__ == "__main__":
     main()
