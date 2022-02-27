@@ -1,13 +1,18 @@
 from os import system
+from json import dumps, load
 from colorama import Style
+from rfc3339 import rfc3339
 
-def style_text(word, back, fore):
-    return back + fore + f" {word} " + Style.RESET_ALL
-
-def clear():
+def clearTerminal():
     system("clear||cls")
 
-def print_colored_grid(grid):
+def askForWord(text):
+    return input(text).upper()
+
+def getWordOfDay(words, word_hash):
+    return words[word_hash - 1].upper()
+
+def printGrid(grid):
     for i in range(len(grid)):
         if i > 0:
             print("\n")
@@ -15,9 +20,30 @@ def print_colored_grid(grid):
             print(grid[i][j], end = "  ")
     print()
 
-def normalize_words(words):
+def getWordHash(today_date, hash_key):
+    return today_date.timetuple().tm_yday - hash_key
+
+def styleText(word, back, fore):
+    return back + fore + f" {word} " + Style.RESET_ALL
+
+def normalizeWords(words):
     accents_equivalents = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u'}
     for i in range(len(words)):
         for accent in accents_equivalents.keys():
-            words[i] = words[i].replace(accent, accents_equivalents[accent])
+            words[i] = words[i].replace("\n", "").replace(accent, accents_equivalents[accent])
     return words
+
+def saveGameResult(word, current_date, result, attempts, game_history_path):
+
+    with open(game_history_path, 'r') as infile:
+
+        game_details = {rfc3339(current_date): word, "won": result, "attempts": attempts}
+
+        try:
+            history = load(infile)
+            history.append(game_details)
+            with open(game_history_path, 'w') as infile:
+                infile.write(dumps(history, indent = 4))
+        except:
+            with open(game_history_path, 'w') as infile:
+                infile.write(dumps([game_details], indent = 4))
