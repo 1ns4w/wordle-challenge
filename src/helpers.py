@@ -8,10 +8,12 @@ def clear():
     system("clear||cls")
 
 def print_colored_grid(grid):
-    for row in grid:
-        for element in row:
-            print(element, end=" ")
-        print()
+    for i in range(len(grid)):
+        if i > 0:
+            print("\n")
+        for j in range(len(grid[i])):
+            print(grid[i][j], end = "  ")
+    print()
 
 def normalize_words(words):
     accents_equivalents = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u'}
