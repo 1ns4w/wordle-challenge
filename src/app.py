@@ -12,11 +12,11 @@ def main():
 
     words = normalize_words(getSpanishWords(WORDS_LENGTH))
     game_words = words[:TOTAL_WORDS]
+    game_grid = []
+    attempts_counter = 0
 
     clear()
 
-    game_grid = []
-    attempts_counter = 0
     day_of_year = int(datetime.now().strftime('%j')) - HASH_SUBSTRACTION
     day_word = game_words[day_of_year - 1]
 
