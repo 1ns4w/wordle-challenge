@@ -1,51 +1,55 @@
 from os import path, stat
-from datetime import datetime
-from colorama import Back, Fore, init
+from datetime import date
+from json import loads, dumps
+from colorama import Back, Fore
 from generator import getSpanishWords
-from constants import GAME_ATTEMPTS, WORDS_LENGTH, TOTAL_WORDS, HASH_SUBSTRACTION, INFILE_PATH
-from helpers import clear, normalize_words, print_colored_grid, style_text, lineBreakSeparatedValuesToArray
+from constants import MAX_GAME_ATTEMPTS, WORDS_LENGTH, REQUIRED_WORDS, HASH_KEY, INFILE_PATH, GAME_HISTORY_PATH
+from helpers import clear, normalize_words, print_colored_grid, style_text, lineBreakSeparatedValuesToArray, saveGameDetails, getWordHash, getWordOfDay, askForWord, gameStart
 
 def main():
 
-    init()
-    clear()
-
+    gameStart()
     if path.exists(INFILE_PATH) == False or stat(INFILE_PATH).st_size == 0:
         print(f"Cargando...")
         words = normalize_words(getSpanishWords(WORDS_LENGTH))
     else:
-        infile_text = open(INFILE_PATH, 'r').read()
-        words = normalize_words(lineBreakSeparatedValuesToArray(infile_text))
+        infile = open(INFILE_PATH, 'r')
+        words = normalize_words(lineBreakSeparatedValuesToArray(infile.read()))
+        infile.close()
 
     clear()
+    
+    game_board = []
+    game_attempts_counter = 0
+    game_words = words[:REQUIRED_WORDS]
+    game_keyboard = [['Q'], ['A'], ['Z']]
 
-    game_grid = []
-    attempts_counter = 0
-    game_words = words[:TOTAL_WORDS]
-    game_keyboard = [['Q']]
+    today_date = date.today()
+    word_hash = getWordHash(today_date, HASH_KEY)
+    day_word = getWordOfDay(game_words, word_hash)
 
-    day_of_year = int(datetime.now().strftime('%j')) - HASH_SUBSTRACTION
-    day_word = game_words[day_of_year - 1].upper()
+    saveGameDetails(today_date, day_word, GAME_HISTORY_PATH)
 
-    while attempts_counter < GAME_ATTEMPTS:
+    while game_attempts_counter < MAX_GAME_ATTEMPTS:
 
-        day_of_year_peek = int(datetime.now().strftime('%j')) - HASH_SUBSTRACTION
+        today_date = date.today()
+        word_hash_check = getWordHash(today_date, HASH_KEY)
 
-        if day_of_year_peek != day_of_year:
-            game_grid = []
-            attempts_counter = 0
-            day_word = game_words[day_of_year_peek - 1]
+        if word_hash_check != word_hash:
             clear()
-            print("La palabra ha cambiado, es un nuevo día.")
+            game_board = []
+            game_attempts_counter = 0
+            day_word = getWordOfDay(game_words, word_hash_check)
+            print("La palabra ha cambiado, el juego se ha reiniciado.")
             continue
         
-        if attempts_counter > 0:
+        if game_attempts_counter > 0:
             print()
-        answer = input("Ingresa una palabra: ").upper()
+        answer = askForWord("Ingresa una palabra: ")
 
         while " " in answer or not (answer.lower() in words) or len(answer) != WORDS_LENGTH:
             print(f"Error: Ingresa una palabra válida de {WORDS_LENGTH} letras sin espacios.")
-            answer = input("Intenta nuevamente: ")
+            answer = askForWord("Intenta nuevamente: ")
 
         answer_chars = list(answer)
         clear()
@@ -58,16 +62,16 @@ def main():
             else:
                 answer_chars[i] = style_text(answer_chars[i], Back.WHITE, Fore.BLACK)
 
-        game_grid.append(answer_chars)
-        print_colored_grid(game_grid)
+        game_board.append(answer_chars)
+        print_colored_grid(game_board)
 
         if answer == day_word:
             print("\nGanaste.")
             break
 
-        attempts_counter += 1
+        game_attempts_counter += 1
 
-        if attempts_counter == GAME_ATTEMPTS:
+        if game_attempts_counter == MAX_GAME_ATTEMPTS:
             print("\nPerdiste.")
 
 if __name__ == "__main__":

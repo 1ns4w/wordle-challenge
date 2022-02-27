@@ -1,5 +1,6 @@
-GAME_ATTEMPTS = 6
+MAX_GAME_ATTEMPTS = 6
 WORDS_LENGTH = 5
-TOTAL_WORDS = 365
-HASH_SUBSTRACTION = 55
-INFILE_PATH = 'src/palabras5.txt'
+REQUIRED_WORDS = 365
+HASH_KEY = 55
+INFILE_PATH = '/home/amejia/code/projects/wordle-challenge/out/palabras5.txt'
+GAME_HISTORY_PATH = 'out/palabras_por_fecha.json'
