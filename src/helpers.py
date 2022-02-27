@@ -1,13 +1,9 @@
 from os import system
 from json import dumps, load
-from colorama import Style, init
+from colorama import Style
 from rfc3339 import rfc3339
 
-def gameStart():
-    init()
-    clear()
-
-def clear():
+def clearTerminal():
     system("clear||cls")
 
 def askForWord(text):
@@ -16,7 +12,7 @@ def askForWord(text):
 def getWordOfDay(words, word_hash):
     return words[word_hash - 1].upper()
 
-def print_colored_grid(grid):
+def printGrid(grid):
     for i in range(len(grid)):
         if i > 0:
             print("\n")
@@ -27,25 +23,15 @@ def print_colored_grid(grid):
 def getWordHash(today_date, hash_key):
     return today_date.timetuple().tm_yday - hash_key
 
-def style_text(word, back, fore):
+def styleText(word, back, fore):
     return back + fore + f" {word} " + Style.RESET_ALL
 
-def normalize_words(words):
+def normalizeWords(words):
     accents_equivalents = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u'}
     for i in range(len(words)):
         for accent in accents_equivalents.keys():
-            words[i] = words[i].replace(accent, accents_equivalents[accent])
+            words[i] = words[i].replace("\n", "").replace(accent, accents_equivalents[accent])
     return words
-
-def lineBreakSeparatedValuesToArray(text):
-    return text.split("\n")[:-1] if text.split("\n")[-1] == '\n' else text.split("\n")
-
-"""
-def saveGameDetails(date, word, outfile_path):
-    with open(outfile_path, 'w') as outfile:
-        record = {str(date): word}
-        outfile.write(dumps([record], indent = 4))
-"""
 
 def saveGameResult(word, current_date, result, attempts, game_history_path):
 
@@ -61,21 +47,3 @@ def saveGameResult(word, current_date, result, attempts, game_history_path):
         except:
             with open(game_history_path, 'w') as infile:
                 infile.write(dumps([game_details], indent = 4))
-
-"""
-def getGameDetails(date, word):
-    return {str(date): word}
-
-    infile = open(GAME_HISTORY_PATH, 'r')
-    try:
-        records = load(infile)
-        records_dates = list(map(lambda record: record.keys()[0], records))
-        if not today_date in records_dates:
-            records.append(getGameDetails(rfc3339(today_date), day_word))
-            infile = open(GAME_HISTORY_PATH, 'w')
-            infile.write(dumps(records, indent = 4))
-            infile.close()
-    except:
-        saveGameDetails(rfc3339(today_date), day_word, GAME_HISTORY_PATH)
-
-"""

@@ -1,22 +1,23 @@
 from os import path, stat
 from datetime import datetime
-from colorama import Back, Fore
+from colorama import Back, Fore, init
 from generator import getSpanishWords
 from constants import MAX_GAME_ATTEMPTS, WORDS_LENGTH, REQUIRED_WORDS, HASH_KEY, INFILE_PATH, GAME_HISTORY_PATH
-from helpers import clear, normalize_words, print_colored_grid, style_text, lineBreakSeparatedValuesToArray, saveGameResult, getWordHash, getWordOfDay, askForWord, gameStart
+from helpers import clearTerminal, normalizeWords, printGrid, styleText, saveGameResult, getWordHash, getWordOfDay, askForWord
 
 def main():
 
-    gameStart()
+    init()
+    clearTerminal()
+
     if path.exists(INFILE_PATH) == False or stat(INFILE_PATH).st_size == 0:
         print(f"Cargando...")
-        words = normalize_words(getSpanishWords(WORDS_LENGTH))
+        words = normalizeWords(getSpanishWords(WORDS_LENGTH))
     else:
-        infile = open(INFILE_PATH, 'r')
-        words = normalize_words(lineBreakSeparatedValuesToArray(infile.read()))
-        infile.close()
+        with open(INFILE_PATH, 'r') as infile:
+            words = normalizeWords(infile.readlines())
 
-    clear()
+    clearTerminal()
     
     game_board = []
     game_attempts_counter = 0
@@ -33,7 +34,7 @@ def main():
         word_hash_check = getWordHash(today_date, HASH_KEY)
 
         if word_hash_check != word_hash:
-            clear()
+            clearTerminal()
             game_board = []
             game_attempts_counter = 0
             day_word = getWordOfDay(game_words, word_hash_check)
@@ -49,18 +50,18 @@ def main():
             answer = askForWord("Intenta nuevamente: ")
 
         answer_chars = list(answer)
-        clear()
+        clearTerminal()
         
         for i in range(len(day_word)):
             if answer_chars[i] == day_word[i]:
-                answer_chars[i] = style_text(answer_chars[i], Back.GREEN, Fore.BLACK)
+                answer_chars[i] = styleText(answer_chars[i], Back.GREEN, Fore.BLACK)
             elif answer_chars[i] in day_word:
-                answer_chars[i] = style_text(answer_chars[i], Back.YELLOW, Fore.BLACK)
+                answer_chars[i] = styleText(answer_chars[i], Back.YELLOW, Fore.BLACK)
             else:
-                answer_chars[i] = style_text(answer_chars[i], Back.WHITE, Fore.BLACK)
+                answer_chars[i] = styleText(answer_chars[i], Back.WHITE, Fore.BLACK)
 
         game_board.append(answer_chars)
-        print_colored_grid(game_board)
+        printGrid(game_board)
 
         game_attempts_counter += 1
 
