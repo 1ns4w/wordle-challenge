@@ -1,10 +1,10 @@
 from os import path, stat
 from datetime import date
-from json import loads, dumps
+from json import loads, dumps, load
 from colorama import Back, Fore
 from generator import getSpanishWords
 from constants import MAX_GAME_ATTEMPTS, WORDS_LENGTH, REQUIRED_WORDS, HASH_KEY, INFILE_PATH, GAME_HISTORY_PATH
-from helpers import clear, normalize_words, print_colored_grid, style_text, lineBreakSeparatedValuesToArray, saveGameDetails, getWordHash, getWordOfDay, askForWord, gameStart
+from helpers import clear, normalize_words, print_colored_grid, style_text, lineBreakSeparatedValuesToArray, saveGameDetails, getWordHash, getWordOfDay, askForWord, gameStart, getGameDetails
 
 def main():
 
@@ -28,7 +28,17 @@ def main():
     word_hash = getWordHash(today_date, HASH_KEY)
     day_word = getWordOfDay(game_words, word_hash)
 
-    saveGameDetails(today_date, day_word, GAME_HISTORY_PATH)
+    infile = open(GAME_HISTORY_PATH, 'r')
+    try:
+        records = load(infile)
+        for record in records:
+            if record.keys() == today_date:
+                records.append(getGameDetails(today_date, day_word))
+                infile = open(GAME_HISTORY_PATH, 'w')
+                infile.write(dumps(records, indent = 4))
+                infile.close()
+    except:
+        saveGameDetails(today_date, day_word, GAME_HISTORY_PATH)
 
     while game_attempts_counter < MAX_GAME_ATTEMPTS:
 

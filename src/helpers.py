@@ -27,9 +27,12 @@ def lineBreakSeparatedValuesToArray(text):
     return text.split("\n")[:-1] if text.split("\n")[-1] == '\n' else text.split("\n")
 
 def saveGameDetails(date, word, outfile_path):
-    with open(outfile_path, 'a+') as outfile:
+    with open(outfile_path, 'w') as outfile:
         record = {str(date): word}
-        outfile.write(dumps(record) + "\n")
+        outfile.write(dumps([record], indent = 4))
+
+def getGameDetails(date, word):
+    return {str(date): word}
 
 def getWordHash(today_date, hash_key):
     return int(today_date.strftime('%j')) - hash_key
