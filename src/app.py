@@ -81,7 +81,7 @@ def main():
 
             if game_attempts_counter == MAX_GAME_ATTEMPTS:
                 saveGameResult(day_word, today_date, False, game_attempts_counter, GAME_HISTORY_PATH)
-                print("\Perdiste.\n")
+                print("\nPerdiste.\n")
     except:
         saveGameResult(day_word, today_date, False, game_attempts_counter, GAME_HISTORY_PATH)
         clearTerminal()
