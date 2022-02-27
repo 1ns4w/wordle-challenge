@@ -2,19 +2,19 @@ from os import path, stat
 from datetime import datetime
 from colorama import Back, Fore, init
 from generator import getSpanishWords
-from constants import MAX_GAME_ATTEMPTS, WORDS_LENGTH, REQUIRED_WORDS, HASH_KEY, INFILE_PATH, GAME_HISTORY_PATH
 from helpers import clearTerminal, normalizeWords, printGrid, styleText, saveGameResult, getWordHash, getWordOfDay, askForWord
+from constants import MAX_GAME_ATTEMPTS, WORDS_LENGTH, REQUIRED_WORDS, HASH_KEY, WORDS_PATH, GAME_WORDS_PATH, GAME_HISTORY_PATH
 
 def main():
 
     init()
     clearTerminal()
 
-    if path.exists(INFILE_PATH) == False or stat(INFILE_PATH).st_size == 0:
+    if path.exists(WORDS_PATH) == False or stat(WORDS_PATH).st_size == 0:
         print(f"Cargando...")
         words = normalizeWords(getSpanishWords(WORDS_LENGTH))
     else:
-        with open(INFILE_PATH, 'r') as infile:
+        with open(WORDS_PATH, 'r') as infile:
             words = normalizeWords(infile.readlines())
 
     clearTerminal()
@@ -66,13 +66,11 @@ def main():
         game_attempts_counter += 1
 
         if answer == day_word:
-            print("\nGanaste.")
             saveGameResult(day_word, today_date, True, game_attempts_counter, GAME_HISTORY_PATH)
             break
 
         if game_attempts_counter == MAX_GAME_ATTEMPTS:
             saveGameResult(day_word, today_date, False, game_attempts_counter, GAME_HISTORY_PATH)
-            print("\nPerdiste.")
 
 if __name__ == "__main__":
     main()

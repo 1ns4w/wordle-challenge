@@ -37,6 +37,7 @@ def saveGameResult(word, current_date, result, attempts, game_history_path):
 
     with open(game_history_path, 'r') as infile:
 
+        print("\nGanaste.\n") if result == True else print("\nPerdiste.\n")
         game_details = {rfc3339(current_date): word, "won": result, "attempts": attempts}
 
         try:
