@@ -17,11 +17,12 @@ def main():
         infile_text = open(INFILE_PATH, 'r').read()
         words = normalize_words(lineBreakSeparatedValuesToArray(infile_text))
 
+    clear()
+
+    game_words = words[:TOTAL_WORDS]
     game_grid = []
     attempts_counter = 0
-    game_words = words[:TOTAL_WORDS]
 
-    clear()
     day_of_year = int(datetime.now().strftime('%j')) - HASH_SUBSTRACTION
     day_word = game_words[day_of_year - 1]
 
