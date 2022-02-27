@@ -52,7 +52,7 @@ def saveWordOfDay(word, current_date, game_words_path):
 
     with open(game_words_path, 'r') as infile:
 
-        formatted_date = current_date.strftime("%m/%d/%Y")
+        formatted_date = current_date.strftime("%Y-%m-%d")
         word_details = {formatted_date: word}
 
         try:

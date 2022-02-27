@@ -33,6 +33,7 @@ def main():
 
     day_word = getWordOfDay(game_words, word_hash)
     saveWordOfDay(day_word, today_date, GAME_WORDS_PATH)
+    return
 
     try:
         while game_attempts_counter < MAX_GAME_ATTEMPTS:
