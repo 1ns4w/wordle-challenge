@@ -19,6 +19,3 @@ def normalize_words(words):
         for accent in accents_equivalents.keys():
             words[i] = words[i].replace(accent, accents_equivalents[accent])
     return words
-
-def lineBreakSeparatedValuesToArray(text):
-    return text.split("\n")[:-1] if text.split("\n")[-1] == '\n' else text.split("\n")

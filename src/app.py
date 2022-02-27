@@ -1,27 +1,22 @@
-from os import path, stat
 from datetime import datetime
 from colorama import Back, Fore, init
 from generator import getSpanishWords
-from constants import GAME_ATTEMPTS, WORDS_LENGTH, TOTAL_WORDS, HASH_SUBSTRACTION, INFILE_PATH
-from helpers import clear, normalize_words, print_colored_grid, style_text, lineBreakSeparatedValuesToArray
+from constants import GAME_ATTEMPTS, WORDS_LENGTH, TOTAL_WORDS, HASH_SUBSTRACTION
+from helpers import clear, normalize_words, print_colored_grid, style_text
 
 def main():
 
     init()
     clear()
+    print(f"Cargando...")
 
-    if path.exists(INFILE_PATH) == False or stat(INFILE_PATH).st_size == 0:
-        print(f"Cargando...")
-        words = normalize_words(getSpanishWords(WORDS_LENGTH))
-    else:
-        infile_text = open(INFILE_PATH, 'r').read()
-        words = normalize_words(lineBreakSeparatedValuesToArray(infile_text))
-
-    game_grid = []
-    attempts_counter = 0
+    words = normalize_words(getSpanishWords(WORDS_LENGTH))
     game_words = words[:TOTAL_WORDS]
 
     clear()
+
+    game_grid = []
+    attempts_counter = 0
     day_of_year = int(datetime.now().strftime('%j')) - HASH_SUBSTRACTION
     day_word = game_words[day_of_year - 1]
 
