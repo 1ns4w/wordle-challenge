@@ -37,7 +37,6 @@ def saveGameResult(word, current_date, result, attempts, game_history_path):
 
     with open(game_history_path, 'r') as infile:
 
-        print("\nGanaste.\n") if result == True else print("\nPerdiste.\n")
         game_details = {rfc3339(current_date): word, "won": result, "attempts": attempts}
 
         try:
@@ -48,3 +47,22 @@ def saveGameResult(word, current_date, result, attempts, game_history_path):
         except:
             with open(game_history_path, 'w') as infile:
                 infile.write(dumps([game_details], indent = 4))
+
+def saveWordOfDay(word, current_date, game_words_path):
+
+    with open(game_words_path, 'r') as infile:
+
+        formatted_date = current_date.strftime("%m/%d/%Y")
+        word_details = {formatted_date: word}
+
+        try:
+            history = load(infile)
+            history_dates = [list(x.keys())[0] for x in history]
+
+            if not formatted_date in history_dates:
+                history.append(word_details)
+                with open(game_words_path, 'w') as infile:
+                    infile.write(dumps(history, indent = 4))
+        except:
+            with open(game_words_path, 'w') as infile:
+                infile.write(dumps([word_details], indent = 4))
