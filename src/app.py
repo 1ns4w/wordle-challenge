@@ -1,10 +1,9 @@
 from os import path, stat
-from datetime import date
-from json import loads, dumps, load
+from datetime import datetime
 from colorama import Back, Fore
 from generator import getSpanishWords
 from constants import MAX_GAME_ATTEMPTS, WORDS_LENGTH, REQUIRED_WORDS, HASH_KEY, INFILE_PATH, GAME_HISTORY_PATH
-from helpers import clear, normalize_words, print_colored_grid, style_text, lineBreakSeparatedValuesToArray, saveGameDetails, getWordHash, getWordOfDay, askForWord, gameStart, getGameDetails
+from helpers import clear, normalize_words, print_colored_grid, style_text, lineBreakSeparatedValuesToArray, saveGameResult, getWordHash, getWordOfDay, askForWord, gameStart
 
 def main():
 
@@ -24,25 +23,13 @@ def main():
     game_words = words[:REQUIRED_WORDS]
     game_keyboard = [['Q'], ['A'], ['Z']]
 
-    today_date = date.today()
+    today_date = datetime.now()
     word_hash = getWordHash(today_date, HASH_KEY)
     day_word = getWordOfDay(game_words, word_hash)
 
-    infile = open(GAME_HISTORY_PATH, 'r')
-    try:
-        records = load(infile)
-        for record in records:
-            if record.keys() == today_date:
-                records.append(getGameDetails(today_date, day_word))
-                infile = open(GAME_HISTORY_PATH, 'w')
-                infile.write(dumps(records, indent = 4))
-                infile.close()
-    except:
-        saveGameDetails(today_date, day_word, GAME_HISTORY_PATH)
-
     while game_attempts_counter < MAX_GAME_ATTEMPTS:
 
-        today_date = date.today()
+        today_date = datetime.now()
         word_hash_check = getWordHash(today_date, HASH_KEY)
 
         if word_hash_check != word_hash:
@@ -75,13 +62,15 @@ def main():
         game_board.append(answer_chars)
         print_colored_grid(game_board)
 
-        if answer == day_word:
-            print("\nGanaste.")
-            break
-
         game_attempts_counter += 1
 
+        if answer == day_word:
+            print("\nGanaste.")
+            saveGameResult(day_word, today_date, "won", game_attempts_counter, GAME_HISTORY_PATH)
+            break
+
         if game_attempts_counter == MAX_GAME_ATTEMPTS:
+            saveGameResult(day_word, today_date, "lost", game_attempts_counter, GAME_HISTORY_PATH)
             print("\nPerdiste.")
 
 if __name__ == "__main__":
