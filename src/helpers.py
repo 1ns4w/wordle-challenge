@@ -47,11 +47,11 @@ def saveGameDetails(date, word, outfile_path):
         outfile.write(dumps([record], indent = 4))
 """
 
-def saveGameResult(word, current_date, result, tries, game_history_path):
-    
+def saveGameResult(word, current_date, result, attempts, game_history_path):
+
     with open(game_history_path, 'r') as infile:
 
-        game_details = {rfc3339(current_date): word, "result": result, "tries": tries}
+        game_details = {rfc3339(current_date): word, "won": result, "attempts": attempts}
 
         try:
             history = load(infile)

@@ -66,11 +66,11 @@ def main():
 
         if answer == day_word:
             print("\nGanaste.")
-            saveGameResult(day_word, today_date, "won", game_attempts_counter, GAME_HISTORY_PATH)
+            saveGameResult(day_word, today_date, True, game_attempts_counter, GAME_HISTORY_PATH)
             break
 
         if game_attempts_counter == MAX_GAME_ATTEMPTS:
-            saveGameResult(day_word, today_date, "lost", game_attempts_counter, GAME_HISTORY_PATH)
+            saveGameResult(day_word, today_date, False, game_attempts_counter, GAME_HISTORY_PATH)
             print("\nPerdiste.")
 
 if __name__ == "__main__":
