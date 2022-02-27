@@ -15,7 +15,6 @@ def print_colored_grid(grid):
             print(grid[i][j], end = "  ")
     print()
 
-
 def normalize_words(words):
     accents_equivalents = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u'}
     for i in range(len(words)):
