@@ -1,5 +1,4 @@
 from requests import get
-from random import shuffle
 from bs4 import BeautifulSoup
 
 # writes to a file or returns an array of n words of length m
