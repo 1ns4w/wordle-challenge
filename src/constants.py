@@ -2,5 +2,4 @@ MAX_GAME_ATTEMPTS = 6
 WORDS_LENGTH = 5
 REQUIRED_WORDS = 365
 HASH_KEY = 55
-INFILE_PATH = 'out/palabras5.txt'
 GAME_HISTORY_PATH = 'out/partidas.json'

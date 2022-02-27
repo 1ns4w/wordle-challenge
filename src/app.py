@@ -2,7 +2,7 @@ from os import path, stat
 from datetime import datetime
 from colorama import Back, Fore, init
 from generator import getSpanishWords
-from constants import MAX_GAME_ATTEMPTS, WORDS_LENGTH, REQUIRED_WORDS, HASH_KEY, INFILE_PATH, GAME_HISTORY_PATH
+from constants import MAX_GAME_ATTEMPTS, WORDS_LENGTH, REQUIRED_WORDS, HASH_KEY, GAME_HISTORY_PATH
 from helpers import clearTerminal, normalizeWords, printGrid, styleText, saveGameResult, getWordHash, getWordOfDay, askForWord
 
 def main():
