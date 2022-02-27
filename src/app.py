@@ -33,7 +33,6 @@ def main():
 
     day_word = getWordOfDay(game_words, word_hash)
     saveWordOfDay(day_word, today_date, GAME_WORDS_PATH)
-    return
 
     try:
         while game_attempts_counter < MAX_GAME_ATTEMPTS:
@@ -76,16 +75,16 @@ def main():
             game_attempts_counter += 1
 
             if answer == day_word:
-                print("\nGanaste.\n")
                 saveGameResult(day_word, today_date, True, game_attempts_counter, GAME_HISTORY_PATH)
+                print("\nGanaste.\n")
                 break
 
             if game_attempts_counter == MAX_GAME_ATTEMPTS:
-                print("\Perdiste.\n")
                 saveGameResult(day_word, today_date, False, game_attempts_counter, GAME_HISTORY_PATH)
+                print("\Perdiste.\n")
     except:
-        clearTerminal()
         saveGameResult(day_word, today_date, False, game_attempts_counter, GAME_HISTORY_PATH)
+        clearTerminal()
         exit("Has interrumpido el juego.")
 
 if __name__ == "__main__":

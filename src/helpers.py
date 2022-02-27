@@ -33,21 +33,6 @@ def normalizeWords(words):
             words[i] = words[i].replace("\n", "").replace(accent, accents_equivalents[accent])
     return words
 
-def saveGameResult(word, current_date, result, attempts, game_history_path):
-
-    with open(game_history_path, 'r') as infile:
-
-        game_details = {rfc3339(current_date): word, "won": result, "attempts": attempts}
-
-        try:
-            history = load(infile)
-            history.append(game_details)
-            with open(game_history_path, 'w') as infile:
-                infile.write(dumps(history, indent = 4))
-        except:
-            with open(game_history_path, 'w') as infile:
-                infile.write(dumps([game_details], indent = 4))
-
 def saveWordOfDay(word, current_date, game_words_path):
 
     with open(game_words_path, 'r') as infile:
@@ -66,3 +51,18 @@ def saveWordOfDay(word, current_date, game_words_path):
         except:
             with open(game_words_path, 'w') as infile:
                 infile.write(dumps([word_details], indent = 4))
+
+def saveGameResult(word, current_date, result, attempts, game_history_path):
+
+    with open(game_history_path, 'r') as infile:
+
+        game_details = {rfc3339(current_date): word, "won": result, "attempts": attempts}
+
+        try:
+            history = load(infile)
+            history.append(game_details)
+            with open(game_history_path, 'w') as infile:
+                infile.write(dumps(history, indent = 4))
+        except:
+            with open(game_history_path, 'w') as infile:
+                infile.write(dumps([game_details], indent = 4))
