@@ -1,5 +1,6 @@
-MAX_GAME_ATTEMPTS = 6
+HASH_KEY = 55
 WORDS_LENGTH = 5
 REQUIRED_WORDS = 365
-HASH_KEY = 55
+MAX_GAME_ATTEMPTS = 6
 GAME_HISTORY_PATH = 'out/partidas.json'
+GAME_WORDS_PATH = 'out/palabras_por_fecha.json'

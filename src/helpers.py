@@ -33,6 +33,25 @@ def normalizeWords(words):
             words[i] = words[i].replace("\n", "").replace(accent, accents_equivalents[accent])
     return words
 
+def saveWordOfDay(word, current_date, game_words_path):
+
+    with open(game_words_path, 'r') as infile:
+
+        formatted_date = current_date.strftime("%Y-%m-%d")
+        word_details = {formatted_date: word}
+
+        try:
+            history = load(infile)
+            history_dates = [list(x.keys())[0] for x in history]
+
+            if not formatted_date in history_dates:
+                history.append(word_details)
+                with open(game_words_path, 'w') as infile:
+                    infile.write(dumps(history, indent = 4))
+        except:
+            with open(game_words_path, 'w') as infile:
+                infile.write(dumps([word_details], indent = 4))
+
 def saveGameResult(word, current_date, result, attempts, game_history_path):
 
     with open(game_history_path, 'r') as infile:
