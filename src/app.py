@@ -81,18 +81,14 @@ def main():
                     answer_chars[i] = colorText(answer_chars[i], Back.GREEN)
                     game_keyboard = colorKey(game_keyboard, answer[i], answer_chars[i], green = True)
 
-                elif answer[i] in day_word and answer_chars.count(colorText(answer[i], Back.GREEN)) != day_word.count(answer[i]):
-                    
-                    if colorText(answer[i], Back.YELLOW) in answer_chars:
-                        game_keyboard = colorKey(game_keyboard, answer[i], colorText(answer_chars[i], Back.YELLOW))
-                        answer_chars[i] = colorText(answer_chars[i], Back.RED)
-                    else:
-                        answer_chars[i] = colorText(answer_chars[i], Back.YELLOW)
-                        game_keyboard = colorKey(game_keyboard, answer[i], answer_chars[i])
+                elif answer[i] in day_word and day_word.count(answer[i]) != answer_chars.count(colorText(answer[i], Back.GREEN)) and answer_chars.count(colorText(answer[i], Back.YELLOW)) != 1:
+                    answer_chars[i] = colorText(answer_chars[i], Back.YELLOW)
+                    game_keyboard = colorKey(game_keyboard, answer[i], answer_chars[i])
 
                 else:
                     answer_chars[i] = colorText(answer_chars[i], Back.RED)
-                    game_keyboard = colorKey(game_keyboard, answer[i], answer_chars[i])
+                    if answer_chars.count(colorText(answer[i], Back.YELLOW)) == 0:
+                        game_keyboard = colorKey(game_keyboard, answer[i], answer_chars[i])
 
             print("GRID:\n")
             game_board.append(answer_chars)

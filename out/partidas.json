@@ -1,0 +1,87 @@
+[
+    {
+        "2022-02-28T07:33:19-05:00": "ABADI",
+        "won": false,
+        "attempts": 1
+    },
+    {
+        "2022-02-28T07:33:57-05:00": "ABADI",
+        "won": false,
+        "attempts": 1
+    },
+    {
+        "2022-02-28T07:43:08-05:00": "ABADI",
+        "won": false,
+        "attempts": 2
+    },
+    {
+        "2022-02-28T07:43:29-05:00": "ABADI",
+        "won": false,
+        "attempts": 0
+    },
+    {
+        "2022-02-28T07:45:14-05:00": "ABADI",
+        "won": false,
+        "attempts": 1
+    },
+    {
+        "2022-02-28T07:46:14-05:00": "ABADI",
+        "won": false,
+        "attempts": 1
+    },
+    {
+        "2022-02-28T07:46:46-05:00": "ABADI",
+        "won": false,
+        "attempts": 1
+    },
+    {
+        "2022-02-28T07:47:06-05:00": "ABADI",
+        "won": false,
+        "attempts": 1
+    },
+    {
+        "2022-02-28T07:50:14-05:00": "ABADI",
+        "won": false,
+        "attempts": 1
+    },
+    {
+        "2022-02-28T07:54:20-05:00": "ABADI",
+        "won": false,
+        "attempts": 3
+    },
+    {
+        "2022-02-28T07:55:29-05:00": "ABADI",
+        "won": false,
+        "attempts": 1
+    },
+    {
+        "2022-02-28T07:55:58-05:00": "ABADI",
+        "won": false,
+        "attempts": 4
+    },
+    {
+        "2022-02-28T07:56:05-05:00": "ABADI",
+        "won": false,
+        "attempts": 1
+    },
+    {
+        "2022-02-28T07:56:46-05:00": "ABADI",
+        "won": true,
+        "attempts": 2
+    },
+    {
+        "2022-02-28T08:00:25-05:00": "ABADI",
+        "won": false,
+        "attempts": 6
+    },
+    {
+        "2022-02-28T08:00:53-05:00": "ABADI",
+        "won": true,
+        "attempts": 2
+    },
+    {
+        "2022-02-28T08:02:20-05:00": "ABADI",
+        "won": false,
+        "attempts": 1
+    }
+]
