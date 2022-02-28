@@ -1,9 +1,12 @@
 from os import system
+from time import sleep
+from rfc3339 import rfc3339
 from json import dumps, load
 from colorama import Style, Fore, Back
-from rfc3339 import rfc3339
 
-def clearTerminal():
+def clearTerminal(wait = 0):
+    if wait > 0:
+        sleep(wait)
     system("clear||cls")
 
 def askForWord(text):
@@ -14,14 +17,23 @@ def getWordOfDay(words, word_hash):
 
 def printGrid(grid, is_keyboard = False):
     for i in range(len(grid)):
-        if i > 0:
-            print("\n")
         for j in range(len(grid[i])):
-            if is_keyboard and len(grid[i][j]) == 1:
+            if len(grid[i][j]) == 1:
                 print(colorText(grid[i][j], Back.WHITE), end = "  ")
             else:
                 print(grid[i][j], end = "  ")
-    print()
+        print("\n")
+
+def printSummary(grid):
+    for row in grid:
+        for text in row:
+            if Back.GREEN in text:
+                print("\U0001f7e9", end = "  ")
+            elif Back.YELLOW in text:
+                print("\U0001f7e8", end = "  ")
+            else:
+                print("\u2B1C", end = "  ")
+        print("\n")
 
 def getWordHash(today_date, hash_key):
     return today_date.timetuple().tm_yday - hash_key
