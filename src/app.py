@@ -1,7 +1,6 @@
 from os import path, stat
 from datetime import datetime
-from shutil import get_terminal_size
-from colorama import Back, init, Fore
+from colorama import Back, init
 from generator import getSpanishWords
 from constants import MAX_GAME_ATTEMPTS, WORDS_LENGTH, REQUIRED_WORDS, HASH_KEY, WORDS_PATH, GAME_WORDS_PATH, GAME_HISTORY_PATH
 from helpers import clearTerminal, normalizeWords, printGrid, colorText, saveGameResult, getWordHash, getWordOfDay, askForWord, saveWordOfDay, colorKey
