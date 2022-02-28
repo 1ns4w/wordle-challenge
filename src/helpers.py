@@ -15,13 +15,13 @@ def askForWord(text):
 def getWordOfDay(words, word_hash):
     return words[word_hash - 1].upper()
 
-def printGrid(tmp):
-    for i in range(len(tmp)):
-        for j in range(len(tmp[i])):
-            if len(tmp[i][j]) == 1:
-                print(colorText(tmp[i][j], Back.WHITE), end = "  ")
+def printGrid(grid):
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            if len(grid[i][j]) == 1:
+                print(colorText(grid[i][j], Back.WHITE), end = "  ")
             else:
-                print(tmp[i][j], end = "  ")
+                print(grid[i][j], end = "  ")
         print("\n")
 
 def printSummary(grid):
