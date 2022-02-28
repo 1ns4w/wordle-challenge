@@ -48,17 +48,17 @@ def main():
 
             if word_hash_check != word_hash:
                 clearTerminal()
-                game_board = [[""] * WORDS_LENGTH] * MAX_GAME_ATTEMPTS
+                game_board = [[" "] * WORDS_LENGTH] * MAX_GAME_ATTEMPTS
                 game_attempts_counter = 0
                 day_word = getWordOfDay(game_words, word_hash_check)
                 saveWordOfDay(day_word, today_date, GAME_WORDS_PATH)
                 saveGameResult(day_word, today_date, False, game_attempts_counter, GAME_HISTORY_PATH)
                 print("La palabra ha cambiado, el juego se ha reiniciado.")
                 continue
-            
+
             if game_attempts_counter == 0:
-                print("KEYBOARD:\n")
-                printGrid(game_keyboard, is_keyboard = True)
+                print("GRID:\n")
+                printGrid(game_board)
 
             answer = askForWord("Ingresa una palabra: ")
 
@@ -89,20 +89,20 @@ def main():
             print("GRID:\n")
             printGrid(game_board)
             print("KEYBOARD:\n")
-            printGrid(game_keyboard, is_keyboard = True)
+            printGrid(game_keyboard)
 
             game_attempts_counter += 1
 
             if answer == day_word:
                 saveGameResult(day_word, today_date, True, game_attempts_counter, GAME_HISTORY_PATH)
-                clearTerminal(3)
+                clearTerminal(5)
                 print("RESUMEN:\n")
                 printSummary(game_board)
                 break
 
             if game_attempts_counter == MAX_GAME_ATTEMPTS:
                 saveGameResult(day_word, today_date, False, game_attempts_counter, GAME_HISTORY_PATH)
-                clearTerminal(3)
+                clearTerminal(5)
                 print("RESUMEN:\n")
                 printSummary(game_board)
     except:
