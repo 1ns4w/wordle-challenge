@@ -60,7 +60,8 @@ def main():
                 if answer_chars[i] == day_word[i]:
                     answer_chars[i] = styleText(answer_chars[i], Back.GREEN, Fore.BLACK)
                 elif answer_chars[i] in day_word:
-                    answer_chars[i] = styleText(answer_chars[i], Back.YELLOW, Fore.BLACK)
+                    if not styleText(answer_chars[i], Back.YELLOW, Fore.BLACK) in answer_chars:
+                        answer_chars[i] = styleText(answer_chars[i], Back.YELLOW, Fore.BLACK)
                 else:
                     answer_chars[i] = styleText(answer_chars[i], Back.WHITE, Fore.BLACK)
 
