@@ -13,7 +13,9 @@ def main():
     if path.exists(WORDS_PATH) == False or stat(WORDS_PATH).st_size == 0:
         print(f"Cargando...")
         try:
-            words = normalizeWords(getSpanishWords(WORDS_LENGTH))
+            getSpanishWords(WORDS_LENGTH, outfile_path = WORDS_PATH)
+            with open(WORDS_PATH, 'r') as infile:
+                words = normalizeWords(infile.readlines())
         except:
             clearTerminal()
             exit("Has interrumpido la carga de palabras.")
