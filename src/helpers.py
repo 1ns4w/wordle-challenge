@@ -1,4 +1,5 @@
-from os import system
+from os import system as terminal
+from platform import system
 from time import sleep
 from rfc3339 import rfc3339
 from json import dumps, load
@@ -7,7 +8,7 @@ from colorama import Style, Fore, Back
 def clearTerminal(wait = 0):
     if wait > 0:
         sleep(wait)
-    system("clear||cls")
+    terminal("cls||clear")
 
 def askForWord(text):
     return input(text).upper()
@@ -27,12 +28,13 @@ def printGrid(grid, is_keyboard = False):
         print("\n")
 
 def printSummary(grid):
+    spaces = " " if system() == "Windows" else "  "
     for row in grid:
         for text in row:
             if Back.GREEN in text:
-                print("\U0001f7e9", end = "  ")
+                print("\U0001f7e9", end = spaces)
             elif Back.YELLOW in text:
-                print("\U0001f7e8", end = "  ")
+                print("\U0001f7e8", end = spaces)
             else:
                 print("\u2B1C", end = "  ")
         print("\n")
