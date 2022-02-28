@@ -1,6 +1,6 @@
 from os import system
 from json import dumps, load
-from colorama import Style, Fore
+from colorama import Style, Fore, Back
 from rfc3339 import rfc3339
 
 def clearTerminal():
@@ -12,19 +12,34 @@ def askForWord(text):
 def getWordOfDay(words, word_hash):
     return words[word_hash - 1].upper()
 
-def printGrid(grid):
+def printGrid(grid, is_keyboard = False):
     for i in range(len(grid)):
         if i > 0:
             print("\n")
         for j in range(len(grid[i])):
-            print(grid[i][j], end = "  ")
+            if is_keyboard and len(grid[i][j]) == 1:
+                print(colorText(grid[i][j], Back.WHITE), end = "  ")
+            else:
+                print(grid[i][j], end = "  ")
     print()
 
 def getWordHash(today_date, hash_key):
     return today_date.timetuple().tm_yday - hash_key
 
-def colorText(word, back):
-    return back + Fore.BLACK + f" {word} " + Style.RESET_ALL
+def colorText(word, back, fore = Fore.BLACK):
+    return back + fore + f" {word} " + Style.RESET_ALL
+
+def colorKey(keyboard, plain_char, formatted_char, green = False):
+    for row in range(len(keyboard)):
+        for text in range(len(keyboard[row])):
+            if green:
+                if plain_char in keyboard[row][text]:
+                    keyboard[row][text] = formatted_char
+            else:
+                if plain_char in keyboard[row][text]:
+                    if Back.GREEN not in keyboard[row][text]:
+                        keyboard[row][text] = formatted_char
+    return keyboard
 
 def normalizeWords(words):
     accents_equivalents = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u'}
