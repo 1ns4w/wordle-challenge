@@ -29,16 +29,16 @@ def getWordHash(today_date, hash_key):
 def colorText(word, back, fore = Fore.BLACK):
     return back + fore + f" {word} " + Style.RESET_ALL
 
-def colorKey(keyboard, index, plain_word, formatted_word, back = None, green = False):
+def colorKey(keyboard, plain_char, formatted_char, green = False):
     for row in range(len(keyboard)):
         for text in range(len(keyboard[row])):
-            if green and back == None:
-                if plain_word[index] in keyboard[row][text]:
-                    keyboard[row][text] = formatted_word[index]
+            if green:
+                if plain_char in keyboard[row][text]:
+                    keyboard[row][text] = formatted_char
             else:
-                if plain_word[index] in keyboard[row][text]:
-                    if back not in keyboard[row][text]:
-                        keyboard[row][text] = formatted_word[index]
+                if plain_char in keyboard[row][text]:
+                    if Back.GREEN not in keyboard[row][text]:
+                        keyboard[row][text] = formatted_char
     return keyboard
 
 def normalizeWords(words):

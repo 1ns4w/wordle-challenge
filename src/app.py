@@ -62,7 +62,7 @@ def main():
                 continue
             
             if game_attempts_counter == 0:
-                print("\nKEYBOARD:\n")
+                print("KEYBOARD:\n")
                 printGrid(game_keyboard, is_keyboard = True)
                 print()
 
@@ -71,25 +71,31 @@ def main():
             while " " in answer or not (answer.lower() in words) or len(answer) != WORDS_LENGTH:
                 print(f"Error: Ingresa una palabra válida de {WORDS_LENGTH} letras sin espacios.")
                 answer = askForWord("Intenta nuevamente: ")
-
+                print()
 
             answer_chars = list(answer)
             clearTerminal()
             
             for i in range(len(day_word)):
-                if answer_chars[i] == day_word[i]:
-                    answer_chars[i] = colorText(answer_chars[i], Back.GREEN)
-                    game_keyboard = colorKey(game_keyboard, i, answer, answer_chars, green = True)
 
-                elif answer_chars[i] in day_word and answer_chars.count(colorText(answer_chars[i], Back.GREEN)) != answer_chars.count(answer[i]):
-                    answer_chars[i] = colorText(answer_chars[i], Back.YELLOW)
-                    game_keyboard = colorKey(game_keyboard, i, answer, answer_chars, Back.GREEN)
+                if answer[i] == day_word[i]:
+                    answer_chars[i] = colorText(answer_chars[i], Back.GREEN)
+                    game_keyboard = colorKey(game_keyboard, answer[i], answer_chars[i], green = True)
+
+                elif answer[i] in day_word and answer_chars.count(colorText(answer[i], Back.GREEN)) != day_word.count(answer[i]):
+                    
+                    if colorText(answer[i], Back.YELLOW) in answer_chars:
+                        game_keyboard = colorKey(game_keyboard, answer[i], colorText(answer_chars[i], Back.YELLOW))
+                        answer_chars[i] = colorText(answer_chars[i], Back.RED)
+                    else:
+                        answer_chars[i] = colorText(answer_chars[i], Back.YELLOW)
+                        game_keyboard = colorKey(game_keyboard, answer[i], answer_chars[i])
 
                 else:
-                    answer_chars[i] = colorText(answer_chars[i], Back.BLACK, Fore.WHITE)
-                    game_keyboard = colorKey(game_keyboard, i, answer, answer_chars, Back.YELLOW)
+                    answer_chars[i] = colorText(answer_chars[i], Back.RED)
+                    game_keyboard = colorKey(game_keyboard, answer[i], answer_chars[i])
 
-            print("GRID\n")
+            print("GRID:\n")
             game_board.append(answer_chars)
             printGrid(game_board)
             print("\nKEYBOARD:\n")
