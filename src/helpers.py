@@ -15,8 +15,10 @@ def askForWord(text):
 def getWordOfDay(words, word_hash):
     return words[word_hash - 1].upper()
 
-def printGrid(grid):
+def printGrid(grid, is_keyboard = False):
     for i in range(len(grid)):
+        if is_keyboard and i == len(grid) - 1:
+            print("  " * round(len(grid[i]) / 2), end = "")
         for j in range(len(grid[i])):
             if len(grid[i][j]) == 1:
                 print(colorText(grid[i][j], Back.WHITE), end = "  ")
@@ -93,3 +95,8 @@ def saveGameResult(word, current_date, result, attempts, game_history_path):
         except:
             with open(game_history_path, 'w') as infile:
                 infile.write(dumps([game_details], indent = 4))
+
+def printGuide():
+    print("- Las casillas del tablero serán verdes si la letra está en el lugar correcto.")
+    print("- Las casillas del tablero serán amarillas si la letra no está en el lugar correcto.")
+    print("- Las casillas del tablero serán rojas si la letra no está en la palabra del día.\n")

@@ -3,7 +3,7 @@ from datetime import datetime
 from colorama import Back, init
 from generator import getSpanishWords
 from constants import MAX_GAME_ATTEMPTS, WORDS_LENGTH, WORDS_PATH, REQUIRED_WORDS, HASH_KEY, GAME_WORDS_PATH, GAME_HISTORY_PATH
-from helpers import clearTerminal, normalizeWords, printGrid, colorText, saveGameResult, getWordHash, getWordOfDay, askForWord, saveWordOfDay, colorKey, printSummary
+from helpers import clearTerminal, normalizeWords, printGrid, colorText, saveGameResult, getWordHash, getWordOfDay, askForWord, saveWordOfDay, colorKey, printSummary, printGuide
 
 def main():
 
@@ -11,7 +11,7 @@ def main():
     clearTerminal()
 
     if path.exists(WORDS_PATH) == False or stat(WORDS_PATH).st_size == 0:
-        print(f"Cargando...")
+        print("Cargando palabras...")
         try:
             getSpanishWords(WORDS_LENGTH, outfile_path = WORDS_PATH)
             with open(WORDS_PATH, 'r') as infile:
@@ -22,9 +22,9 @@ def main():
     else:
         with open(WORDS_PATH, 'r') as infile:
             words = normalizeWords(infile.readlines())
-
-    clearTerminal()
     
+    clearTerminal()
+            
     game_attempts_counter = 0
     game_words = words[:REQUIRED_WORDS]
     game_board = [[" "] * WORDS_LENGTH] * MAX_GAME_ATTEMPTS
@@ -57,8 +57,10 @@ def main():
                 continue
 
             if game_attempts_counter == 0:
-                print("GRID:\n")
+                print("WORDLE CLI:\n")
                 printGrid(game_board)
+                print("GUIDE:\n")
+                printGuide()
 
             answer = askForWord("Ingresa una palabra: ")
 
@@ -86,24 +88,24 @@ def main():
 
             game_board[game_attempts_counter] = answer_chars
 
-            print("GRID:\n")
+            print("WORDLE CLI:\n")
             printGrid(game_board)
             print("KEYBOARD:\n")
-            printGrid(game_keyboard)
+            printGrid(game_keyboard, is_keyboard = True)
 
             game_attempts_counter += 1
 
             if answer == day_word:
                 saveGameResult(day_word, today_date, True, game_attempts_counter, GAME_HISTORY_PATH)
                 clearTerminal(5)
-                print("RESUMEN:\n")
+                print("SUMMARY:\n")
                 printSummary(game_board)
                 break
 
             if game_attempts_counter == MAX_GAME_ATTEMPTS:
                 saveGameResult(day_word, today_date, False, game_attempts_counter, GAME_HISTORY_PATH)
                 clearTerminal(5)
-                print("RESUMEN:\n")
+                print("SUMMARY:\n")
                 printSummary(game_board)
     except:
         saveGameResult(day_word, today_date, False, game_attempts_counter, GAME_HISTORY_PATH)
