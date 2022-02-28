@@ -1,6 +1,6 @@
 from os import system
 from json import dumps, load
-from colorama import Style
+from colorama import Style, Fore
 from rfc3339 import rfc3339
 
 def clearTerminal():
@@ -23,8 +23,8 @@ def printGrid(grid):
 def getWordHash(today_date, hash_key):
     return today_date.timetuple().tm_yday - hash_key
 
-def styleText(word, back, fore):
-    return back + fore + f" {word} " + Style.RESET_ALL
+def colorText(word, back):
+    return back + Fore.BLACK + f" {word} " + Style.RESET_ALL
 
 def normalizeWords(words):
     accents_equivalents = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u'}
