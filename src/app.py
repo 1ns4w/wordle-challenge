@@ -1,6 +1,7 @@
 from os import path, stat
 from datetime import datetime
-from colorama import Back, init
+from shutil import get_terminal_size
+from colorama import Back, init, Fore
 from generator import getSpanishWords
 from constants import MAX_GAME_ATTEMPTS, WORDS_LENGTH, REQUIRED_WORDS, HASH_KEY, WORDS_PATH, GAME_WORDS_PATH, GAME_HISTORY_PATH
 from helpers import clearTerminal, normalizeWords, printGrid, colorText, saveGameResult, getWordHash, getWordOfDay, askForWord, saveWordOfDay
@@ -26,7 +27,15 @@ def main():
     game_board = []
     game_attempts_counter = 0
     game_words = words[:REQUIRED_WORDS]
-    game_keyboard = [['Q'], ['A'], ['Z']]
+    game_keyboard = [
+        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+        ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ'],
+        ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+    ]
+
+    for row in range(len(game_keyboard)):
+        for letter in range(len(game_keyboard[row])):
+            game_keyboard[row][letter] = colorText(game_keyboard[row][letter], Back.WHITE)
 
     today_date = datetime.now()
     word_hash = getWordHash(today_date, HASH_KEY)
@@ -67,10 +76,13 @@ def main():
                 elif answer_chars[i] in day_word and not colorText(answer_chars[i], Back.YELLOW) in answer_chars:
                     answer_chars[i] = colorText(answer_chars[i], Back.YELLOW)
                 else:
-                    answer_chars[i] = colorText(answer_chars[i], Back.WHITE)
+                    answer_chars[i] = colorText(answer_chars[i], Back.BLACK, Fore.WHITE)
 
+            print("GRID\n")
             game_board.append(answer_chars)
             printGrid(game_board)
+            print("\nKEYBOARD:\n")
+            printGrid(game_keyboard)
 
             game_attempts_counter += 1
 
