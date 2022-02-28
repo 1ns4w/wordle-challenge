@@ -1,9 +1,9 @@
 from os import path, stat
 from datetime import datetime
-from colorama import Back, Fore, init
+from colorama import Back, init
 from generator import getSpanishWords
 from constants import MAX_GAME_ATTEMPTS, WORDS_LENGTH, REQUIRED_WORDS, HASH_KEY, WORDS_PATH, GAME_WORDS_PATH, GAME_HISTORY_PATH
-from helpers import clearTerminal, normalizeWords, printGrid, styleText, saveGameResult, getWordHash, getWordOfDay, askForWord, saveWordOfDay
+from helpers import clearTerminal, normalizeWords, printGrid, colorText, saveGameResult, getWordHash, getWordOfDay, askForWord, saveWordOfDay
 
 def main():
 
@@ -63,11 +63,11 @@ def main():
             
             for i in range(len(day_word)):
                 if answer_chars[i] == day_word[i]:
-                    answer_chars[i] = styleText(answer_chars[i], Back.GREEN, Fore.BLACK)
-                elif answer_chars[i] in day_word:
-                    answer_chars[i] = styleText(answer_chars[i], Back.YELLOW, Fore.BLACK)
+                    answer_chars[i] = colorText(answer_chars[i], Back.GREEN)
+                elif answer_chars[i] in day_word and not colorText(answer_chars[i], Back.YELLOW) in answer_chars:
+                    answer_chars[i] = colorText(answer_chars[i], Back.YELLOW)
                 else:
-                    answer_chars[i] = styleText(answer_chars[i], Back.WHITE, Fore.BLACK)
+                    answer_chars[i] = colorText(answer_chars[i], Back.WHITE)
 
             game_board.append(answer_chars)
             printGrid(game_board)
